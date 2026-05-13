@@ -14,4 +14,5 @@ class Graph:
 
     def print_graph(self):
         for vertex, neighbors in self.adj_list.items():
-            print(f"{vertex}: {list(neighbors)}")
+            readable_neighbors = [n + 1 for n in neighbors]
+            print(f"{vertex + 1}: {readable_neighbors}")

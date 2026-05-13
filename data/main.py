@@ -1,33 +1,47 @@
 import sys
-
-def sort_using_algorithm(data, algorithm):
-    # This function takes the algorithm identifier as input
-    # However, it always uses the sorted function in Python
-
-    sorted_data = sorted(data)
-
-    return sorted_data
+from generator import generate_full_hamiltonian, generate_non_hamiltonian
 
 def main():
-    # Command-line arguments: python script.py --algorithm <algorithm_number>
-    if len(sys.argv) != 3 or sys.argv[1] != "--algorithm":
-        print("Usage: python script.py --algorithm <algorithm_number>")
+    """
+    Główna funkcja programu obsługująca interfejs wiersza poleceń.
+    """
+    if len(sys.argv) < 2:
+        print("Użycie: python3 main.py --hamilton LUB python main.py --non-hamilton")
         sys.exit(1)
 
-    algorithm_number = int(sys.argv[2])
+    mode = sys.argv[1]
 
-    # Read input data from standard input until the end of file (EOF)
-    input=sys.stdin.read().split()
-    try:
-        data = [int(x) for x in input[1:]]
-    except EOFError:
-        print("Error reading input.")
-
-    # Perform sorting using the specified algorithm (ignored in this example)
-    sorted_data = sort_using_algorithm(data, algorithm_number)
-
-    # Print the sorted data
-    print("Sorted data:", sorted_data[0:10])
+    if mode == "--hamilton":
+        try:
+            # pobieranie danych od użytkownika
+            nodes_str = input("nodes> ")
+            nodes = int(nodes_str)
+            sat_str = input("saturation> ")
+            saturation = int(sat_str)
+            
+            # Generowanie i wypisywanie grafu
+            graph = generate_full_hamiltonian(nodes, saturation)
+            print("\nWygenerowany graf Hamiltona:")
+            graph.print_graph()
+            
+        except ValueError as e:
+            print(f"Błąd wartości: {e}")
+            
+    elif mode == "--non-hamilton":
+        try:
+            nodes_str = input("nodes> ")
+            nodes = int(nodes_str)
+            
+            # Generowanie i wypisywanie grafu nie-hamiltonowskiego
+            graph = generate_non_hamiltonian(nodes)
+            print("\nWygenerowany graf nie-hamiltonowski:")
+            graph.print_graph()
+            
+        except ValueError as e:
+            print(f"Błąd wartości: {e}")
+            
+    else:
+        print("Nieznany argument. Użyj flagi --hamilton lub --non-hamilton")
 
 if __name__ == "__main__":
     main()
