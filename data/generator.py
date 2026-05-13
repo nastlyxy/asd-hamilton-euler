@@ -33,7 +33,7 @@ def saturate_graph(graph, target_saturation):
             graph.add_edge(v1, v2)
             graph.add_edge(v2, v3)
             graph.add_edge(v3, v1)
-            
+
             current_edges += 3
 
 def generate_full_hamiltonian(n, saturation_percent):
@@ -43,3 +43,12 @@ def generate_full_hamiltonian(n, saturation_percent):
     graph = generate_hamiltonian_cycle(n)
     saturate_graph(graph, saturation_percent / 100.0)
     return graph
+
+def generate_non_hamiltonian(n):
+    graph = generate_full_hamiltonian(n - 1, 50) 
+    
+    final_graph = Graph(n)
+    final_graph.adj_list.update(graph.adj_list)
+    final_graph.adj_list[n - 1] = set()
+    
+    return final_graph
