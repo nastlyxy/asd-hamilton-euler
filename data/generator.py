@@ -2,10 +2,12 @@ import random
 from graph import Graph
 
 def generate_hamiltonian_cycle(n):
+    #Tworzy cykl Hamiltona przechodzący przez wszystkie wierzchołki
     graph = Graph(n)
     vertices = list(range(n))
     random.shuffle(vertices)
     
+    # Łączenie wierzchołków w zamknięty cykl
     for i in range(n):
         u = vertices[i]
         v = vertices[(i + 1) % n]
@@ -14,9 +16,11 @@ def generate_hamiltonian_cycle(n):
     return graph
 
 def get_max_edges(n):
+    #Oblicza maksymalną możliwą liczbę krawędzi w grafie nieskierowanym
     return n * (n - 1) // 2
 
 def saturate_graph(graph, target_saturation):
+    #Dopełnia graf losowymi krawędziami do zadanego poziomu nasycenia
     n = graph.num_vertices
     max_edges = get_max_edges(n)
     target_edges = int(max_edges * target_saturation)
@@ -24,6 +28,7 @@ def saturate_graph(graph, target_saturation):
     current_edges = n 
     
     while current_edges < target_edges:
+        # 3 unikalne wierzchołki
         v1, v2, v3 = random.sample(range(n), 3)
 
         if (v2 not in graph.adj_list[v1] and 
@@ -37,6 +42,7 @@ def saturate_graph(graph, target_saturation):
             current_edges += 3
 
 def generate_full_hamiltonian(n, saturation_percent):
+    #generowanie grafu Hamiltona o zadanym nasyceniu
     if n <= 10:
         raise ValueError("Ilość wierzchołków musi być większa niż 10")
         
@@ -45,6 +51,9 @@ def generate_full_hamiltonian(n, saturation_percent):
     return graph
 
 def generate_non_hamiltonian(n):
+    #Generuje graf nie-hamiltonowski
+    if n <= 11:
+        raise ValueError("Ilość wierzchołków musi być większa niż 10")
     graph = generate_full_hamiltonian(n - 1, 50) 
     
     final_graph = Graph(n)
