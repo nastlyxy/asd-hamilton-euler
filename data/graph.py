@@ -1,0 +1,13 @@
+class Graph:
+    def __init__(self, num_vertices):
+        self.num_vertices = num_vertices
+        self.adj_list = {i: set() for i in range(num_vertices)}
+
+    def add_edge(self, u, v):
+        if u != v:
+            self.adj_list[u].add(v)
+            self.adj_list[v].add(u)
+
+    def print_graph(self):
+        for vertex, neighbors in self.adj_list.items():
+            print(f"{vertex}: {list(neighbors)}")
