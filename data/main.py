@@ -56,7 +56,7 @@ def main():
 
             # Szukanie i wypisywanie cyklu Hamiltona oraz Eulera dla grafu nie-hamiltonowskiego
             print("\nSzukanie cyklu Hamiltona...")
-            hamilton_path = find_hamiltonian_cycle(graph)
+            hamilton_path = find_hamilton_cycle(graph)
             if hamilton_path:
                 print("Cykl Hamiltona:", " -> ".join(str(v + 1) for v in hamilton_path))
             else:
