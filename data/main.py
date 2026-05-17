@@ -1,6 +1,6 @@
 import sys
 from generator import generate_full_hamiltonian, generate_non_hamiltonian
-from algorithms.hamilton import find_hamiltonian_cycle
+from algorithms.hamilton import find_hamilton_cycle
 from algorithms.euler import find_eulerian_cycle
 
 def main():
