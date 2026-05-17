@@ -53,7 +53,7 @@ def generate_full_hamiltonian(n, saturation_percent):
 def generate_non_hamiltonian(n):
     #Generuje graf nie-hamiltonowski
     if n <= 11:
-        raise ValueError("Ilość wierzchołków musi być większa niż 10")
+        raise ValueError("Ilość wierzchołków musi być większa niż 11") # bo z 11 nie działa
     graph = generate_full_hamiltonian(n - 1, 50) 
     
     final_graph = Graph(n)
