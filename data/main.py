@@ -1,5 +1,7 @@
 import sys
 from generator import generate_full_hamiltonian, generate_non_hamiltonian
+from algorithms.hamilton import find_hamiltonian_cycle
+from algorithms.euler import find_eulerian_cycle
 
 def main():
     """
@@ -24,6 +26,21 @@ def main():
             print("\nWygenerowany graf Hamiltona:")
             graph.print_graph()
             
+            # Szukanie i wypisywanie cyklu Hamiltona oraz Eulera dla grafu hamiltonowskiego
+            print("\nSzukanie cyklu Hamiltona...")
+            hamilton_path = find_hamiltonian_cycle(graph)
+            if hamilton_path:
+                print("Cykl Hamiltona:", " -> ".join(str(v + 1) for v in hamilton_path))
+            else:
+                print("Cykl Hamiltona: Nie znaleziono")
+
+            print("\nSzukanie cyklu Eulera...")
+            euler_path = find_eulerian_cycle(graph)
+            if euler_path:
+                print("Cykl Eulera:", " -> ".join(str(v + 1) for v in euler_path))
+            else:
+                print("Cykl Eulera: Nie znaleziono")
+
         except ValueError as e:
             print(f"Błąd wartości: {e}")
             
