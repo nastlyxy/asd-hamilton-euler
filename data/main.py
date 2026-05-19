@@ -16,12 +16,19 @@ def main():
 
     if mode == "--hamilton":
         try:
-            # pobieranie danych od użytkownika
+            # Interaktywne pobieranie danych od użytkownika
             nodes_str = input("nodes> ")
             nodes = int(nodes_str)
+            
             sat_str = input("saturation> ")
             saturation = int(sat_str)
             
+            if not (0 <= saturation <= 80):
+                # Ograniczamy do 80%, ponieważ przy >85% losowe szukanie wolnych trójkątów
+                # zaczyna drastycznie zwalniać, a dla >100% powoduje nieskończoną pętlę.
+                # Wymagane w zadaniu to 30% i 70%.
+                raise ValueError("Nasycenie musi być w przedziale od 0 do 80%")
+
             # Generowanie i wypisywanie grafu
             graph = generate_full_hamiltonian(nodes, saturation)
             print("\nWygenerowany graf Hamiltona:")
@@ -42,17 +49,18 @@ def main():
             else:
                 print("Cykl Eulera: Nie znaleziono")
 
-            # === KOD EKSPORTU ===
             print("\nGenerowanie pliku TikZ dla LaTeXa...")
             
-            # Jedna funkcja pakuje wszystkie wyniki do jednego pliku!
+            # Jedna funkcja pakuje wszystkie wyniki do jednego pliku
             export_all_to_tikz(graph, "wykresy_grafow.tex", hamilton_cycle=hamilton_path, euler_cycle=euler_path)
                 
             print("Zapisano! Skopiuj zawartość pliku 'wykresy_grafow.tex' do Overleafa.")
-            # =========================
-
+            
         except ValueError as e:
             print(f"Błąd wartości: {e}")
+        except (KeyboardInterrupt, EOFError):
+            print("\nPrzerwano działanie programu przez użytkownika.")
+            sys.exit(0)
             
     elif mode == "--non-hamilton":
         try:
@@ -79,17 +87,18 @@ def main():
             else:
                 print("Cykl Eulera: Nie znaleziono")
 
-            # === NOWY KOD EKSPORTU ===
             print("\nGenerowanie pliku TikZ dla LaTeXa...")
             
-            # Jedna funkcja pakuje wszystkie wyniki do jednego pliku!
+            # Jedna funkcja pakuje wszystkie wyniki do jednego pliku
             export_all_to_tikz(graph, "wykresy_grafow.tex", hamilton_cycle=hamilton_path, euler_cycle=euler_path)
                 
             print("Zapisano! Skopiuj zawartość pliku 'wykresy_grafow.tex' do Overleafa.")
-            # =========================
             
         except ValueError as e:
             print(f"Błąd wartości: {e}")
+        except (KeyboardInterrupt, EOFError):
+            print("\nPrzerwano działanie programu przez użytkownika.")
+            sys.exit(0)
             
     else:
         print("Nieznany argument. Użyj flagi --hamilton lub --non-hamilton")
